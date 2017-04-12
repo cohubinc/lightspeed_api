@@ -6,6 +6,7 @@ require_relative 'lightspeed_api/shopify_hooks'
 require_relative 'lightspeed_api/shopify_draft_order_patch'
 require_relative 'lightspeed_api/shopify_order_patch'
 require 'pry'
+
 module LightspeedApi
   settings = ['lightspeed_clientID',
               'lightspeed_clientSecret',
@@ -20,6 +21,10 @@ module LightspeedApi
         \n Try stopping spring with 'spring stop' and running again.
       DOC
     end
+  end
+
+  def self.const_missing(name)
+    self.const_set name.to_s, Class.new(LightspeedApi::Base)
   end
 end
 

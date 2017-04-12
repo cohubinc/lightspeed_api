@@ -20,6 +20,20 @@ Or install it yourself as:
 
     $ gem install lightspeed_api
 
+### Generate Migrations
+
+    $ rails g lightspeed_api:install
+
+*Note:* 
+This is only if you need a access_tokens table.
+If you already have one just make sure you have these fields
+  
+  - access_token
+  - expires_at
+  - token_type
+  - refresh_token
+  - app 
+    
 ## Usage
 
 TODO: Write usage instructions here
