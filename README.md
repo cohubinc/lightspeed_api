@@ -41,8 +41,7 @@ Most endpoints have find,create,update,delete,all methods and endpoints.
     $ LightspeedApi::Item.find(1)
  
     $ LightspeedApi::Item.all
-    
-## Development
+   
 
 Some models are created that have special methods but many are made on the fly. 
 The Model in Lightspeed you are calling is the class you would call with any of the above methods.
@@ -51,6 +50,7 @@ ie: If you want to find all Discounts. It does not have a model created but you 
   
     $ LightspeedApi::Discount.all
  
+## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
