@@ -1,8 +1,10 @@
 # LightspeedApi
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/lightspeed_api`. To experiment with that code, run `bin/console` for an interactive prompt.
+API wrapper for [Lightspeed Retail](https://www.lightspeedhq.com)
 
-TODO: Delete this and the text above, and describe your gem
+API Docs [Lightspeed API](http://developers.lightspeedhq.com/retail/introduction/introduction/) 
+
+
 
 ## Installation
 
