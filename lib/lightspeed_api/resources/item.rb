@@ -44,7 +44,7 @@ module LightspeedApi
 
       private
       def check_qoh(qoh)
-        if qoh.blank? || qoh.nil? || !qoh
+        if qoh.to_i <= 0
           return 0
         end
         qoh
