@@ -21,6 +21,11 @@ module LightspeedApi
         post_url = url
         LightspeedCall.make('POST') { HTTParty.post(post_url, body: attrs.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json', 'Content-Type' => 'application/json'}) }
       end
+
+      def shops(id)
+        get_url = url + "#{url}/#{id}.json?load_relations=['ItemShops']"
+        LightspeedCall.make('GET') { HTTParty.get(all_url, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json'}) }
+      end
       #   # scale = ShopifyAPI::Order.first
       #   post_url = BASE_URL
       #   mfg = {order_lines: []}
