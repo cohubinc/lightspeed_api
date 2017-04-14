@@ -38,6 +38,9 @@ If you already have one just make sure you have these fields
     
 ## Usage
 
+*Note:* ShopID is currently hardcoded to 1 :( as when making we only had 1 shop. 
+Need to change to take user defined shop id.
+
 Most endpoints have find,create,update,delete,all methods and endpoints.
     
     $ LightspeedApi::Item.find(1)

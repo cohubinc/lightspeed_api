@@ -22,9 +22,23 @@ module LightspeedApi
         LightspeedCall.make('POST') { HTTParty.post(post_url, body: attrs.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json', 'Content-Type' => 'application/json'}) }
       end
 
-      def shops(id)
-        get_url = url + "#{url}/#{id}.json?load_relations=['ItemShops']"
-        LightspeedCall.make('GET') { HTTParty.get(all_url, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json'}) }
+      def update_with_inventory(id, attrs = {},qoh)
+        find_url = "#{url}/#{id}" +'?load_relations=["ItemShops"]'
+        response = LightspeedCall.make('GET') {
+          HTTParty.get(
+              find_url,
+              headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json'}
+          )}
+        shopItemID = response["Item"]["ItemShops"]["ItemShop"].find{|shop| shop['shopID'] == '1'}['itemShopID']
+        inv_attrs = {ItemShops: {
+            ItemShop: {
+                itemShopID: shopItemID,
+                shopID: 1,
+                qoh: qoh
+            }
+        }}
+        attrs.merge!(inv_attrs)
+        update(id,attrs)
       end
       #   # scale = ShopifyAPI::Order.first
       #   post_url = BASE_URL
