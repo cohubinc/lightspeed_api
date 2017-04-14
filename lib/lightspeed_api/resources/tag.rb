@@ -7,7 +7,7 @@ module LightspeedApi
       def create(scale)
         post_url = url
         mfg = {name: scale.name}
-        LightspeedCall.make('POST') { HTTParty.post(post_url, body: mfg.to_json, headers: {Authorization: "Bearer #{Lightspeed::OauthGrant.token}", 'Accept' => 'application/json'}) }
+        LightspeedCall.make('POST') { HTTParty.post(post_url, body: mfg.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json'}) }
       end
     end
   end

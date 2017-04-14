@@ -8,7 +8,7 @@ module LightspeedApi
       #   post_url = BASE_URL
       #   mfg = {order_lines: []}
       #   binding.pry
-      #   LightspeedCall.make('POST') { HTTParty.post(post_url, body: mfg.to_json, headers: {Authorization: "Bearer #{Lightspeed::OauthGrant.token}",'Accept' => 'application/json'}) }
+      #   LightspeedCall.make('POST') { HTTParty.post(post_url, body: mfg.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}",'Accept' => 'application/json'}) }
       # end
     end
   end

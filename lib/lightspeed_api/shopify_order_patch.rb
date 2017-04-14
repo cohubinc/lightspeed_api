@@ -9,7 +9,7 @@ module ShopifyOrder
 
 
       items = self.line_items.map do |item|
-        ls_item = Lightspeed::Item.find(item.sku)
+        ls_item = LightspeedApi::Item.find(item.sku)
         id = ls_item.fetch('Item', {}).fetch('itemID', nil)
         {SaleLine: [{itemID: id,
                      unitQuantity: item.quantity,
