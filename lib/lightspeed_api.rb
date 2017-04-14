@@ -5,7 +5,6 @@ require_relative 'lightspeed_api/oauth_grant'
 require_relative 'lightspeed_api/shopify_hooks'
 require_relative 'lightspeed_api/shopify_draft_order_patch'
 require_relative 'lightspeed_api/shopify_order_patch'
-require 'pry'
 
 module LightspeedApi
   settings = ['lightspeed_clientID',
