@@ -17,19 +17,20 @@ module LightspeedApi
         end
       end
 
-      def create(attrs = {} )
+      def create(attrs = {})
         post_url = url
         LightspeedCall.make('POST') { HTTParty.post(post_url, body: attrs.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json', 'Content-Type' => 'application/json'}) }
       end
 
-      def update_with_inventory(id, attrs = {},qoh)
+      def update_with_inventory(id, attrs = {}, qoh)
         find_url = "#{url}/#{id}" +'?load_relations=["ItemShops"]'
         response = LightspeedCall.make('GET') {
           HTTParty.get(
               find_url,
               headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json'}
-          )}
-        shopItemID = response["Item"]["ItemShops"]["ItemShop"].find{|shop| shop['shopID'] == '1'}['itemShopID']
+          ) }
+        shopItemID = response["Item"]["ItemShops"]["ItemShop"].find { |shop| shop['shopID'] == '1' }['itemShopID']
+        qoh = check_qoh(qoh)
         inv_attrs = {ItemShops: {
             ItemShop: {
                 itemShopID: shopItemID,
@@ -38,7 +39,15 @@ module LightspeedApi
             }
         }}
         attrs.merge!(inv_attrs)
-        update(id,attrs)
+        update(id, attrs)
+      end
+
+      private
+      def check_qoh(qoh)
+        if qoh.blank? || qoh.nil? || !qoh
+          return 0
+        end
+        qoh
       end
       #   # scale = ShopifyAPI::Order.first
       #   post_url = BASE_URL
