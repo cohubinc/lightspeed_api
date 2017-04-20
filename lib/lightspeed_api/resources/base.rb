@@ -29,7 +29,7 @@ module LightspeedApi
       # end
 
       def delete(id)
-        delete_url = url + "#{id}.json"
+        delete_url = url + "/#{id}.json"
         LightspeedCall.make('POST') { HTTParty.delete(delete_url, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}"}) }
       end
 
