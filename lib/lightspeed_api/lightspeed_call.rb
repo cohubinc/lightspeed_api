@@ -38,6 +38,7 @@ class LightspeedCall
       else
         puts 'waiting for drip rate'
         how_many_points = (@@bucket_level.to_f - (@@used_points.to_f + cost.to_f)).abs
+        how_many_points += 5
         wait_for = how_many_points * drip_rate
         if wait_for < drip_rate
           wait_for = drip_rate
