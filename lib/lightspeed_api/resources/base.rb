@@ -10,9 +10,9 @@ module LightspeedApi
         BASE_URL + "/#{ENV['lightspeed_account_id']}/" + self.name.demodulize
       end
 
-      def all
-        all_url = "#{url}.json"
-        LightspeedCall.make('GET') { HTTParty.get(all_url, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json'}) }
+      def all(query = {},params = {},body = {})
+        all_url = "#{url}.json?"
+        LightspeedCall.make('GET') { HTTParty.get(all_url, query: query,params: params,body:body, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json', 'Content-Type' => 'application/json' }) }
       end
 
       def find(id)
@@ -20,24 +20,24 @@ module LightspeedApi
         LightspeedCall.make('GET') {
           HTTParty.get(
               find_url, params: {"#{id_param_key}" =>  id }.to_json,
-            headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json'}
+            headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json',  'Content-Type' => 'application/json' }
          )}
       end
 
-      # def update
-      #
-      # end
+      def update(id,params)
+        update_url = url + "/#{id}.json"
+        LightspeedCall.make('POST') { HTTParty.put(update_url, body: params.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}",'Accept' => 'application/json', 'Content-Type' => 'application/json' }) }
+      end
 
       def delete(id)
         delete_url = url + "/#{id}.json"
-        LightspeedCall.make('POST') { HTTParty.delete(delete_url, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}"}) }
+        LightspeedCall.make('POST') { HTTParty.delete(delete_url, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json', 'Content-Type' => 'application/json' }) }
       end
 
       # Default just updated name
-      def create(object)
-        post_url = BASE_URL
-        mfg = {name: object.name}
-        LightspeedCall.make('POST') { HTTParty.post(post_url, body: mfg.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json'}) }
+      def create(params)
+        post_url = url
+        LightspeedCall.make('POST') { HTTParty.post(post_url, body: params.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json',  'Content-Type' => 'application/json' }) }
       end
     end
   end

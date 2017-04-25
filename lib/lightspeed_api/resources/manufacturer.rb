@@ -4,10 +4,9 @@ module LightspeedApi
     self.id_param_key = 'manufacturerID'
 
     class << self
-      def create(manufacturer)
-        post_url = BASE_URL
-        mfg = {name: manufacturer.name}
-        LightspeedCall.make('POST') { HTTParty.post(post_url, body: mfg.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json'}) }
+      def create(params)
+        post_url = url
+        LightspeedCall.make('POST') { HTTParty.post(post_url, body: params.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json', 'Content-Type' => 'application/json' }) }
       end
     end
   end
