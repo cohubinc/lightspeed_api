@@ -7,7 +7,7 @@ module LightspeedApi
 
     class << self
       def url
-        BASE_URL + "/#{ENV['lightspeed_account_id']}/" + self.name.demodulize
+        BASE_URL + "/#{LightspeedApi.configuration.lightspeed_account_id}/" + self.name.demodulize
       end
 
       def all(query = {},params = {},body = {})

@@ -1,7 +1,7 @@
 module LightspeedApi
   class Sale < Base
-    using ShopifyDraftOrder
-    using ShopifyOrder
+    # using ShopifyDraftOrder
+    # using ShopifyOrder
     self.id_param_key = 'saleID'
 
     class << self

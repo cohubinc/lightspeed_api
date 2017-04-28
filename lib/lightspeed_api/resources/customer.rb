@@ -12,7 +12,7 @@ module LightspeedApi
 
       def find_by_email(email)
         # TODO change this to email not mobile
-        raise 'This is not setup yet. Change to email before cotinuing to use'
+        # raise 'This is not setup yet. Change to email before cotinuing to use'
         find_url = url+'?load_relations=["Contact"]&Contact.mobile=' + email
         response = LightspeedCall.make('GET') {
           HTTParty.get(

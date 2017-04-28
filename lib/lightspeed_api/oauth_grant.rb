@@ -6,9 +6,9 @@ module LightspeedApi
         tokenURL = "https://cloud.merchantos.com/oauth/access_token.php";
 
         postFields = {
-            'client_id' => ENV['lightspeed_clientID'],
-            'client_secret' => ENV['lightspeed_clientSecret'],
-            'refresh_token' => ENV['lightspeed_refresh_token'],
+            'client_id' => LightspeedApi.configuration.lightspeed_clientID,
+            'client_secret' => LightspeedApi.configuration.lightspeed_clientSecret,
+            'refresh_token' => LightspeedApi.configuration.lightspeed_refresh_token,
             'grant_type' => 'refresh_token'
         }
 
