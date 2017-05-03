@@ -34,6 +34,12 @@ module LightspeedApi
         check_response(response)
       end
 
+      def where_by_sku(sku)
+        encoded = URI.encode(sku)
+        find_url = "#{url}/?customSku=#{encoded}"
+        response = LightspeedCall.make('GET') { HTTParty.get(find_url, headers: headers) }
+      end
+
       def find(id)
         find_url = "#{url}/#{id}.json"
         response = LightspeedCall.make('GET') {
