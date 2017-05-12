@@ -23,8 +23,13 @@ module LightspeedApi
       end
 
       def create(attrs = {})
-        post_url = url
-        LightspeedCall.make('POST') { HTTParty.post(post_url, body: attrs.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json', 'Content-Type' => 'application/json'}) }
+        begin
+          item_found = find_by_custom_sku(attrs[:customSku])
+          update(item_found['itemID'],attrs)
+        rescue LightspeedItemNotFoundError
+          post_url = url
+          LightspeedCall.make('POST') { HTTParty.post(post_url, body: attrs.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json', 'Content-Type' => 'application/json'}) }
+        end
       end
 
       def find_by_custom_sku(sku)
@@ -44,9 +49,9 @@ module LightspeedApi
         find_url = "#{url}/#{id}.json"
         response = LightspeedCall.make('GET') {
           HTTParty.get(
-              find_url, params: {"#{id_param_key}" =>  id }.to_json,
+              find_url, params: {"#{id_param_key}" => id}.to_json,
               headers: headers
-          )}
+          ) }
         check_response(response)
       end
 
