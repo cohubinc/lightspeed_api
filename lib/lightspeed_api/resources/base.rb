@@ -14,6 +14,11 @@ module LightspeedApi
         BASE_URL + "/#{LightspeedApi.configuration.lightspeed_account_id}/" + self.name.demodulize
       end
 
+      def where_by_attributes(attributes)
+        find_url = "#{url}.json?#{attributes}"
+        response = LightspeedCall.make('GET') { HTTParty.get(find_url, headers: headers) }
+      end
+
       def all(query = {},params = {},body = {})
         all_url = "#{url}.json?"
         LightspeedCall.make('GET') { HTTParty.get(all_url, query: query,params: params,body:body, headers: headers) }

@@ -7,7 +7,7 @@ module LightspeedApi
     class << self
       def create(order)
         post_url = url
-        order_attrs = order.to_lightspeed
+        order_attrs = order.respond_to?(:to_lightspeed) ? order.to_lightspeed : order
         if order_attrs
           LightspeedCall.make('POST') { HTTParty.post(post_url, body: order_attrs.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json'}) }
         end
