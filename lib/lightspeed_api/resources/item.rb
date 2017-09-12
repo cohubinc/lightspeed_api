@@ -22,6 +22,12 @@ module LightspeedApi
         LightspeedCall.make('PUT') { HTTParty.put(post_url, body: attrs.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json', 'Content-Type' => 'application/json'}) }
       end
 
+      # def delete(id, attrs = {})
+      #   item_response = find(id)
+      #   delete_url = url + "/#{item_response['itemID']}.json"
+      #   LightspeedCall.make('DELETE') { HTTParty.delete(delete_url, body: attrs.to_json, headers: {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}", 'Accept' => 'application/json', 'Content-Type' => 'application/json'}) }
+      # end
+
       def create(attrs = {})
         begin
           item_found = find_by_custom_sku(attrs[:customSku])
@@ -65,7 +71,7 @@ module LightspeedApi
         end
       end
 
-      def update_with_inventory(id, attrs = {}, qoh)
+      def update_with_inventory(id, attrs = {}, shopAttrs ={} )
         find_url = "#{url}/#{id}" +'?load_relations=["ItemShops"]'
         response = LightspeedCall.make('GET') {
           HTTParty.get(
@@ -78,8 +84,7 @@ module LightspeedApi
             ItemShop: {
                 itemShopID: shopItemID,
                 shopID: 1,
-                qoh: qoh
-            }
+            }.merge(shopAttrs)
         }}
         attrs.merge!(inv_attrs)
         update(id, attrs)
