@@ -32,7 +32,7 @@ module LightspeedApi
 
       def token
         token = AccessToken.find_by(app: 'lightspeed')
-        if token && (token.expires_at == '0' || Time.at(token.expires_at) > Time.now)
+        if token && (token.expires_at == '0' || Time.now + token.expires_at.to_i > Time.now)
           token.access_token
         else
           authorize
