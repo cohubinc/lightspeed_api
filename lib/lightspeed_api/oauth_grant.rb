@@ -17,13 +17,13 @@ module LightspeedApi
 
         if token
           token.access_token = response['access_token']
-          token.expires_at = response['expires_in']
+          token.expires_at = (Time.now + response['expires_in']).to_s
           token.save
         else
           token = AccessToken.new
           token.app = 'lightspeed'
           token.access_token = response['access_token']
-          token.expires_at = response['expires_in']
+          token.expires_at = (Time.now + response['expires_in']).to_s
           token.refresh_token = response['refresh_token']
           token.save
         end
@@ -32,7 +32,7 @@ module LightspeedApi
 
       def token
         token = AccessToken.find_by(app: 'lightspeed')
-        if token && (token.expires_at == '0' || Time.now + token.expires_at.to_i > Time.now)
+        if token && (token.expires_at == '0' || token.expires_at > Time.now)
           token.access_token
         else
           authorize
