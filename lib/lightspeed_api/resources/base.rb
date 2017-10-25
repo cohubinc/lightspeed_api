@@ -40,7 +40,7 @@ module LightspeedApi
 
       def delete(id)
         delete_url = url + "/#{id}.json"
-        LightspeedCall.make('POST') { HTTParty.delete(delete_url, headers: headers) }
+        LightspeedCall.make('DELETE') { HTTParty.delete(delete_url, headers: headers) }
       end
 
       # Default just updated name
