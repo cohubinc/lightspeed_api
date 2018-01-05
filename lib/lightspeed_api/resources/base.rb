@@ -6,12 +6,18 @@ module LightspeedApi
     class_attribute :id_param_key
 
     class << self
+
       def headers
         {Authorization: "Bearer #{LightspeedApi::OauthGrant.token}",'Accept' => 'application/json', 'Content-Type' => 'application/json' }
       end
 
       def url
         BASE_URL + "/#{LightspeedApi.configuration.lightspeed_account_id}/" + self.name.demodulize
+      end
+
+      def get_bucket_level
+        basic_url = BASE_URL + ".json"
+        response = HTTParty.get(basic_url, headers: headers)
       end
 
       def where_by_attributes(attributes)
@@ -35,7 +41,7 @@ module LightspeedApi
 
       def update(id,params)
         update_url = url + "/#{id}.json"
-        LightspeedCall.make('POST') { HTTParty.put(update_url, body: params.to_json, headers: headers) }
+        LightspeedCall.make('PUT') { HTTParty.put(update_url, body: params.to_json, headers: headers) }
       end
 
       def delete(id)

@@ -7,11 +7,17 @@ class LightspeedCall
     @@bucket_level = 60
     @@used_points = 0
 
-    def make(type)
-      check_calls(type)
-      response = yield
+    def parse_headers(response)
       @@used_points = response.headers['x-ls-api-bucket-level'].split('/').first
       @@bucket_level = response.headers['x-ls-api-bucket-level'].split('/').last
+    end
+
+    def make(type)
+      response = LightspeedApi::Base.get_bucket_level
+      parse_headers(response)
+      check_calls(type)
+      response = yield
+      parse_headers(response)
       if response.code != 200
         raise "Lightspeed Error : #{response} "
       end
@@ -33,6 +39,7 @@ class LightspeedCall
              end
       puts @@used_points
       puts @@bucket_level
+      puts cost
       if @@used_points.to_f + cost.to_f <= @@bucket_level.to_f
         puts 'Making Call'
       else
