@@ -41,7 +41,7 @@ module LightspeedApi
 
       def update(id,params)
         update_url = url + "/#{id}.json"
-        LightspeedCall.make('PUT') { HTTParty.put(update_url, body: params.to_json, headers: headers) }
+        LightspeedCall.make('POST') { HTTParty.put(update_url, body: params.to_json, headers: headers) }
       end
 
       def delete(id)
