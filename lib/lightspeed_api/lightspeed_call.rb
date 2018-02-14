@@ -10,16 +10,17 @@ class LightspeedCall
     def parse_headers(response)
       @@used_points = response.headers['x-ls-api-bucket-level'].split('/').first
       @@bucket_level = response.headers['x-ls-api-bucket-level'].split('/').last
+      @drip_rate = response.headers['x-ls-api-drip-rate'].split('/').last
     end
 
     def make(type)
-      response = LightspeedApi::Base.get_bucket_level
-      parse_headers(response)
+      bucket_levels = LightspeedApi::Base.get_bucket_level
+      parse_headers(bucket_levels)
       check_calls(type)
       response = yield
       parse_headers(response)
       if response.code != 200
-        raise "Lightspeed Error : #{response} "
+        raise "Lightspeed Error : #{response}, #{bucket_levels} "
       end
       response
     end
@@ -40,7 +41,7 @@ class LightspeedCall
       puts @@used_points
       puts @@bucket_level
       puts cost
-      if @@used_points.to_f + cost.to_f <= @@bucket_level.to_f
+      if @@used_points.to_f + cost.to_f < @@bucket_level.to_f
         puts 'Making Call'
       else
         puts 'waiting for drip rate'
