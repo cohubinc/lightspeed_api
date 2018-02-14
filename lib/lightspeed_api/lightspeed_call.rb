@@ -11,6 +11,8 @@ class LightspeedCall
       @@used_points = response.headers['x-ls-api-bucket-level'].split('/').first
       @@bucket_level = response.headers['x-ls-api-bucket-level'].split('/').last
       @drip_rate = response.headers['x-ls-api-drip-rate'].split('/').last
+    rescue => e
+      raise "Lightspeed Error : #{response} : #{e.message}"
     end
 
     def make(type)
@@ -41,11 +43,11 @@ class LightspeedCall
       puts @@used_points
       puts @@bucket_level
       puts cost
-      if @@used_points.to_f + cost.to_f < @@bucket_level.to_f
+      if @@used_points.to_f + cost.to_f < (@@bucket_level.to_f - 20)
         puts 'Making Call'
       else
         puts 'waiting for drip rate'
-        how_many_points = (@@bucket_level.to_f - (@@used_points.to_f + cost.to_f)).abs
+        how_many_points = ((@@bucket_level.to_f - 20 ) - (@@used_points.to_f + cost.to_f)).abs
         how_many_points += 5
         wait_for = how_many_points * drip_rate
         if wait_for < drip_rate
