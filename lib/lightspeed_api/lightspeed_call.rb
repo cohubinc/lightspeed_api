@@ -32,7 +32,7 @@ class LightspeedCall
       response = yield
       parse_headers(response)
       if response.code != 200
-        raise "Lightspeed Error : #{response}, #{bucket_levels} "
+        raise "Lightspeed Error : #{response}, #{@bucket_level}, #{@used_points}"
       end
       response
     end
