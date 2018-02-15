@@ -4,20 +4,30 @@ class LightspeedCall
   end
 
   class << self
-    @@bucket_level = 60
-    @@used_points = 0
 
     def parse_headers(response)
-      @@used_points = response.headers['x-ls-api-bucket-level'].split('/').first
-      @@bucket_level = response.headers['x-ls-api-bucket-level'].split('/').last
-      @drip_rate = response.headers['x-ls-api-drip-rate'].split('/').last
+      @used_points = response.headers['x-ls-api-bucket-level'].split('/').first
+      @bucket_level = response.headers['x-ls-api-bucket-level'].split('/').last
+      if response.headers['x-ls-api-drip-rate']
+        @drip_rate = response.headers['x-ls-api-drip-rate'].split('/').last
+      else
+        @drip_rate = 2
+      end
+      if @token
+        @token.used_points = @used_points.to_f
+        @token.bucket_level = @bucket_level.to_f
+        @token.save
+      end
     rescue => e
       raise "Lightspeed Error : #{response} : #{e.message}"
     end
 
     def make(type)
-      bucket_levels = LightspeedApi::Base.get_bucket_level
-      parse_headers(bucket_levels)
+      # bucket_levels = LightspeedApi::Base.get_bucket_level
+      @token = AccessToken.find_by(app: 'lightspeed')
+      @bucket_level = @token.try(:bucket_level).to_f > 0 ? @token.bucket_level : 60
+      @used_points = @token.try(:used_points).to_f > 0 ? @token.used_points : 60
+      @drip_rate ||= 2
       check_calls(type)
       response = yield
       parse_headers(response)
@@ -29,30 +39,31 @@ class LightspeedCall
 
 
     def check_calls(type)
-      drip_rate = @@bucket_level.to_f / 60
+      drip_rate = @drip_rate || @bucket_level.to_f / 60
       cost = case type
                when 'POST'
-                 10
+                 15
                when 'PUT'
-                 10
+                 15
                when 'DELETE'
-                 10
+                 15
                when 'GET'
-                 1
+                 5
              end
-      puts @@used_points
-      puts @@bucket_level
+      puts @used_points
+      puts @bucket_level
       puts cost
-      if @@used_points.to_f + cost.to_f < (@@bucket_level.to_f - 20)
+      # Stay 10 away from bucket level
+      if @used_points.to_f + cost.to_f < (@bucket_level.to_f - 10)
         puts 'Making Call'
       else
         puts 'waiting for drip rate'
-        how_many_points = ((@@bucket_level.to_f - 20 ) - (@@used_points.to_f + cost.to_f)).abs
-        how_many_points += 5
-        wait_for = how_many_points * drip_rate
-        if wait_for < drip_rate
-          wait_for = drip_rate
+        if @used_points.to_f + cost.to_f >= (@bucket_level.to_f - 10)
+          wait_for = (@used_points.to_f + cost.to_f - (@bucket_level.to_f - 10)) * 2
+        else
+          wait_for = 60
         end
+        puts "Waiting for #{wait_for} seconds"
         sleep(wait_for)
         puts 'continuing'
       end

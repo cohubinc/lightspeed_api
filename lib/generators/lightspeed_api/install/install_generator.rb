@@ -16,6 +16,8 @@ module LightspeedApi
       def copy_migrations
         migration_template "create_access_tokens.rb",
                            "db/migrate/create_access_tokens.rb"
+        migration_template "add_used_pts_and_level_to_tokens.rb",
+                           "db/migrate/add_pts_and_level_to_tokens.rb"
       end
     end
   end
