@@ -69,8 +69,7 @@ end
         LightspeedCall.stub(:make) { nil }
         response = LightspeedApi::Manufacturer.all
         request = response.request
-        expect(response.keys).to include("Manufacturer", "@attributes")   expect(request.uri.path).to eq("/API/Account/147343/Manufacturer.json")
-     
+        expect(response.keys).to include("Manufacturer", "@attributes")   
     end
    
   end
