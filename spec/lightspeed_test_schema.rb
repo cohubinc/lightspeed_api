@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20170425210730) do
     t.string "token_type"
     t.string "refresh_token"
     t.string "app"
+    t.integer "used_points"
+    t.integer "bucket_level"
   end
 
 end

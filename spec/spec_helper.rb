@@ -4,7 +4,6 @@ require 'pry'
 require 'shopify_api'
 require 'httparty'
 require 'active_record'
-
 # require 'webmock/rspec'
 # WebMock.disable_net_connect!(allow_localhost: true)
 
