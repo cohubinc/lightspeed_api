@@ -65,7 +65,7 @@ describe LightspeedApi::Base do
   end
 
 
-  describe ".find on a basic resource with no overridden method" do
+  describe ".all on a basic resource with no overridden method" do
     it "makes a request to /API/Account/<account_id>/Manufacturer.json" do
       ENV['NO_ERRORS'] = 'true'
       AccessToken.stub(:find_by){ AccessToken.new(used_points: 1)}
