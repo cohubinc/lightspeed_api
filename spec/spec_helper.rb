@@ -34,11 +34,6 @@ RSpec.configure do |config|
   config.before(:each) do
     schema_path = File.join(RAILS_ROOT, 'spec/lightspeed_test_schema.rb')
     NullDB.nullify(:schema => schema_path)
-
-
-    # stub_request(:get, "https://api.merchantos.com/API/Account/accountID/Manufacturer.json").
-    #     with(headers: {'Accept'=>'application/json', 'Authorization'=>'Bearer sometokenhash', 'Content-Type'=>'application/json'}).
-    #     to_return(status: 200, body: "", headers: {'x-ls-api-bucket-level' => ['1/60'],'x-ls-api-drip-rate' => '1'})
   end
 
   config.after(:each) do
