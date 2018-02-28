@@ -25,7 +25,7 @@ ActiveRecord::Base.configurations.merge!('test' => { 'adapter' => 'nulldb' })
 
 # Here's where you force NullDB to do your bidding
 RSpec.configure do |config|
-  
+
   config.before(:each) do
     schema_path = File.join(RAILS_ROOT, 'spec/lightspeed_test_schema.rb')
     NullDB.nullify(:schema => schema_path)

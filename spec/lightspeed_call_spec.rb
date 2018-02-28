@@ -79,7 +79,7 @@ describe LightspeedCall do
         ENV['NO_ERRORS'] = nil
         AccessToken.stub(:find_or_create_by) { AccessToken.new(used_points: 60) }
         LightspeedApi::OauthGrant.stub(:token) { 'sometokenhash' }
-        LightspeedCall.should_receive(:check_calls)
+        expect_any_instance_of(LightspeedCall).to receive(:check_calls)
         response = LightspeedApi::Manufacturer.all
       end
     end
@@ -105,7 +105,7 @@ describe LightspeedCall do
       ENV['NO_ERRORS'] = nil
       AccessToken.stub(:find_or_create_by) { AccessToken.new(used_points: 86, bucket_level: 90) }
       LightspeedApi::OauthGrant.stub(:token) { 'sometokenhash' }
-      LightspeedCall.should_receive(:sleep).with(0.5)
+      expect_any_instance_of(LightspeedCall).to receive(:sleep).with(0.5)
       response = LightspeedApi::Manufacturer.all
     end
   end
@@ -130,7 +130,7 @@ describe LightspeedCall do
       ENV['NO_ERRORS'] = nil
       AccessToken.stub(:find_or_create_by) { AccessToken.new(used_points: 60, bucket_level: 66) }
       LightspeedApi::OauthGrant.stub(:token) { 'sometokenhash' }
-      LightspeedCall.should_not_receive(:sleep)
+      expect_any_instance_of(LightspeedCall).to_not receive(:sleep)
       response = LightspeedApi::Manufacturer.all
     end
   end
