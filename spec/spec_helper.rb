@@ -1,10 +1,15 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+require 'simplecov'
 require 'bundler/setup'
 require 'pry'
 require 'shopify_api'
 require 'httparty'
 require 'active_record'
 require 'webmock/rspec'
+
+SimpleCov.start
+#Todo fix this nast connection ENV var thing.
+# Allow connections, even though they are nastilly stopped right now. with an ENV var.
 WebMock.allow_net_connect!
 
 #  Use NullDB to not use activerecord for access_tokens
