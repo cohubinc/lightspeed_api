@@ -39,7 +39,7 @@ describe LightspeedApi::Base do
     describe ".all" do
       it "makes a request to /API/Account/<account_id>/Manufacturer.json" do
         ENV['NO_ERRORS'] = 'true'
-        AccessToken.stub(:find_by) { AccessToken.new(used_points: 1) }
+        AccessToken.stub(:find_or_create_by) { AccessToken.new(used_points: 1) }
         LightspeedApi::OauthGrant.stub(:token) { 'sometokenhash' }
         response = LightspeedApi::UndefinedClassRoute.all
         request = response.request
@@ -52,7 +52,7 @@ describe LightspeedApi::Base do
       it "makes a request to LS API with the correct FIND path, body, and method" do
         ENV['NO_ERRORS'] = 'true'
         LightspeedApi::OauthGrant.stub(:token) { 'sometokenhash' }
-        AccessToken.stub(:find_by) { AccessToken.new(used_points: 1) }
+        AccessToken.stub(:find_or_create_by) { AccessToken.new(used_points: 1) }
         response = LightspeedApi::UndefinedClassRoute.find(1)
         request = response.request
         expect(request.http_method).to eq(Net::HTTP::Get)
@@ -64,7 +64,7 @@ describe LightspeedApi::Base do
       it "makes a request to LS API with the correct UPDATE path, body, and method" do
         ENV['NO_ERRORS'] = 'true'
         LightspeedApi::OauthGrant.stub(:token) { 'sometokenhash' }
-        AccessToken.stub(:find_by) { AccessToken.new(used_points: 1) }
+        AccessToken.stub(:find_or_create_by) { AccessToken.new(used_points: 1) }
         response = LightspeedApi::UndefinedClassRoute.update(1, {name: 'SomeName'})
         request = response.request
         expect(request.raw_body).to eq "{\"name\":\"SomeName\"}"
@@ -77,7 +77,7 @@ describe LightspeedApi::Base do
       it "makes a request to LS API with the correct DELETE path, body, and method" do
         ENV['NO_ERRORS'] = 'true'
         LightspeedApi::OauthGrant.stub(:token) { 'sometokenhash' }
-        AccessToken.stub(:find_by) { AccessToken.new(used_points: 1) }
+        AccessToken.stub(:find_or_create_by) { AccessToken.new(used_points: 1) }
         response = LightspeedApi::UndefinedClassRoute.delete(1)
         request = response.request
         expect(request.http_method).to eq(Net::HTTP::Delete)
@@ -89,7 +89,7 @@ describe LightspeedApi::Base do
       it "makes a request to LS API with the correct CREATE path, body, and method" do
         ENV['NO_ERRORS'] = 'true'
         LightspeedApi::OauthGrant.stub(:token) { 'sometokenhash' }
-        AccessToken.stub(:find_by) { AccessToken.new(used_points: 1) }
+        AccessToken.stub(:find_or_create_by) { AccessToken.new(used_points: 1) }
         response = LightspeedApi::UndefinedClassRoute.create({name: 'potatohead'})
         request = response.request
         expect(request.http_method).to eq(Net::HTTP::Post)

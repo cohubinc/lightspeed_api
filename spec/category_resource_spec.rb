@@ -11,7 +11,7 @@ describe LightspeedApi::Category do
   }
   before(:each) {
       ENV['NO_ERRORS'] = 'true'
-      AccessToken.stub(:find_by) { AccessToken.new(used_points: 1) }
+      AccessToken.stub(:find_or_create_by) { AccessToken.new(used_points: 1) }
       LightspeedApi::OauthGrant.stub(:token) { 'sometokenhash' }
   }
 
