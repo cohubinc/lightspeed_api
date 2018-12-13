@@ -1,7 +1,7 @@
 module LightspeedApi
   class SpecialOrder < Base
-    using ShopifyDraftOrder
-    using ShopifyOrder
+    # using ShopifyDraftOrder
+    # using ShopifyOrder
     self.id_param_key = 'specialOrderID'
 
     class << self

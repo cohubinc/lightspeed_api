@@ -3,9 +3,9 @@ require_relative 'lightspeed_api/configuration'
 require_relative 'lightspeed_api/access_token'
 require_relative 'lightspeed_api/lightspeed_call'
 require_relative 'lightspeed_api/oauth_grant'
-require_relative 'lightspeed_api/shopify_hooks'
-require_relative 'lightspeed_api/shopify_draft_order_patch'
-require_relative 'lightspeed_api/shopify_order_patch'
+# require_relative 'lightspeed_api/shopify_hooks'
+# require_relative 'lightspeed_api/shopify_draft_order_patch'
+# require_relative 'lightspeed_api/shopify_order_patch'
 module LightspeedApi
   class << self
     attr_writer :configuration
